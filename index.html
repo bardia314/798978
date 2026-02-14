@@ -1,270 +1,246 @@
 <!DOCTYPE html>
-<html lang="fa">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>ULTIMATE FUN HTML MONSTER</title>
-
-<!-- ================= CSS ================= -->
+<title>The Secret Casino</title>
 <style>
+  /* --- کل صفحه بدون اسکرول --- */
+  html, body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #000;
+    font-family: Arial, sans-serif;
+    color: #0ff;
+  }
 
-/* CSS Animation */
-body{
-background:black;
-color:white;
-font-family:monospace;
-text-align:center;
-overflow-x:hidden;
-}
+  /* --- صفحات --- */
+  .page {
+    display: none;
+    position: fixed; /* تمام viewport رو بگیره */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: #000;
+  }
 
-h1{
-animation: glow 2s infinite alternate;
-}
+  .active {
+    display: block;
+  }
 
-@keyframes glow{
-from{ text-shadow:0 0 10px red;}
-to{ text-shadow:0 0 30px crimson;}
-}
+  /* --- Info Page Box --- */
+  #info-box {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    right: 20px;
+    bottom: 20px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-radius: 15px;
+    background-color: rgba(255,255,255,0.05);
+    overflow: hidden; /* emojiها از box بیرون نرن */
+  }
 
-.box{
-width:120px;
-height:120px;
-border:2px solid red;
-margin:20px auto;
-animation: spin 5s linear infinite;
-}
+  /* Top elements */
+  .top-left, .top-right {
+    position: absolute;
+    top: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    z-index: 10;
+  }
+  .top-left { left: 15px; }
+  .top-right { right: 15px; }
 
-@keyframes spin{
-from{ transform:rotate(0deg);}
-to{ transform:rotate(360deg);}
-}
+  .top-left button {
+    background-color: transparent;
+    border: 1px solid #0f0;
+    color: #0f0;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 14px;
+  }
 
+  /* Center text */
+  #info-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 24px;
+    color: #ff0;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  /* Bottom text */
+  #info-bottom {
+    position: absolute;
+    bottom: 10px;
+    width: 100%;
+    text-align: center;
+    font-size: 16px;
+    color: #f0f;
+    font-weight: bold;
+  }
+
+  /* Emojis */
+  .emoji {
+    position: absolute;
+    font-size: 40px;
+    pointer-events: none;
+  }
+
+  /* --- Admin Page --- */
+  #admin-box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    max-width: 300px;
+    padding: 20px;
+    border: 2px solid #0ff;
+    border-radius: 10px;
+    text-align: center;
+    background-color: rgba(255,255,255,0.05);
+  }
+  #admin-box h2 {
+    margin-bottom: 15px;
+    color: #0f0;
+  }
+  #admin-box input {
+    width: 80%;
+    padding: 10px;
+    margin: 8px 0;
+    border: 1px solid #0ff;
+    border-radius: 5px;
+    background-color: #111;
+    color: #0ff;
+    font-size: 14px;
+  }
+  #admin-box button {
+    padding: 10px 20px;
+    margin-top: 10px;
+    border: 1px solid #0f0;
+    border-radius: 5px;
+    background-color: #000;
+    color: #0f0;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  #admin-msg {
+    margin-top: 10px;
+    font-weight: bold;
+    color: #f00;
+  }
 </style>
-
-<!-- ================= JSON ================= -->
-<script type="application/json" id="fakeData">
-{
-"name":"Secret Casino",
-"type":"fun demo",
-"admins":[
-{"id":1,"name":"Zero"},
-{"id":2,"name":"One"}
-]
-}
-</script>
-
-<!-- ================= SQL (Fake Example) ================= -->
-<script type="text/plain" id="sqlExample">
-CREATE TABLE customers(
-id INT,
-name TEXT,
-code TEXT
-);
-</script>
-
 </head>
-
 <body>
 
-<h1>💀 FUN HTML MONSTER 💀</h1>
-
-<div class="box"></div>
-
-<!-- ================= SVG ================= -->
-<svg width="200" height="120">
-<circle cx="60" cy="60" r="40" stroke="red" stroke-width="4" fill="none"/>
-<rect x="110" y="20" width="60" height="60" stroke="white" fill="none"/>
-</svg>
-
-<!-- ================= Canvas ================= -->
-<canvas id="canvas" width="300" height="150"></canvas>
-
-<!-- ================= Template HTML ================= -->
-<template id="cardTemplate">
-<div style="border:1px solid white;margin:5px;padding:5px;">
-<span class="title"></span>
+<!-- Info Page -->
+<div id="info-page" class="page active">
+  <div id="info-box">
+    <div class="top-left">
+      <button onclick="showPage('admin-page')">Are you an admin?</button>
+    </div>
+    <div class="top-right">
+      Booth number: <span id="booth-number">07</span>
+    </div>
+    <div id="info-center">طبقه دوم کلاس ۹۰۴</div>
+    <div id="info-bottom">ID Rubika: @the_secret_casino</div>
+  </div>
 </div>
-</template>
 
-<!-- ================= Audio API ================= -->
-<button onclick="playBeep()">Beep</button>
+<!-- Admin Page -->
+<div id="admin-page" class="page">
+  <div id="admin-box">
+    <h2>Admin Login</h2>
+    <input type="text" id="admin-username" placeholder="Username"><br>
+    <input type="password" id="admin-password" placeholder="Password"><br>
+    <button onclick="adminLogin()">Login</button>
+    <div id="admin-msg"></div>
+  </div>
+</div>
 
-<!-- ================= WebGL Shader ================= -->
-<script id="vertexShader" type="x-shader/x-vertex">
-attribute vec4 position;
-void main(){
-gl_Position = position;
-}
-</script>
-
-<script id="fragmentShader" type="x-shader/x-fragment">
-void main(){
-gl_FragColor = vec4(1,0,0,1);
-}
-</script>
-
-<!-- ================= Markdown (Fake Embed) ================= -->
-<script type="text/markdown" id="md">
-# Demo Markdown
-- Hello
-- Fun
-- HTML Monster
-</script>
-
-<!-- ================= JavaScript ================= -->
 <script>
+  /* --- Page Navigation --- */
+  function showPage(pageId) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById(pageId).classList.add('active');
+  }
 
-// ===== Canvas Drawing =====
-let canvas=document.getElementById("canvas");
-let ctx=canvas.getContext("2d");
+  /* --- Admin Login Logic --- */
+  function adminLogin() {
+    const username = document.getElementById('admin-username').value;
+    const msg = document.getElementById('admin-msg');
+    if (/^0[1-9]$/.test(username)) {
+      msg.textContent = "Site is under construction";
+      msg.style.color = '#ff0';
+    } else {
+      msg.textContent = "Invalid username or password";
+      msg.style.color = '#f00';
+    }
+  }
 
-ctx.fillStyle="red";
-ctx.fillRect(20,20,100,50);
+  /* --- Emoji Physics --- */
+  const box = document.getElementById('info-box');
+  const emojis = ['🦁','☀️','🎲','🃏','💰','🎰','🤑','🀄','💵','🪙'];
+  const physics = [];
 
-// ===== Web Audio =====
-function playBeep(){
-let audioCtx=new(window.AudioContext||window.webkitAudioContext)();
-let osc=audioCtx.createOscillator();
-osc.connect(audioCtx.destination);
-osc.start();
-setTimeout(()=>osc.stop(),200);
-}
+  function boxRect() { return box.getBoundingClientRect(); }
 
-// ===== JSON Reading =====
-let data=JSON.parse(document.getElementById("fakeData").textContent);
-console.log("JSON Loaded:",data);
+  for (let i=0; i<emojis.length; i++) {
+    const span = document.createElement('span');
+    span.classList.add('emoji');
+    span.textContent = emojis[i];
+    box.appendChild(span);
 
-// ===== Template Rendering =====
-let template=document.getElementById("cardTemplate");
+    const rect = boxRect();
+    const mass = 0.5 + Math.random()*1.5;
+    physics.push({
+      x: Math.random()*(rect.width-40),
+      y: Math.random()*(rect.height-40),
+      vx: (Math.random()-0.5)*2,
+      vy: 0,
+      mass: mass,
+      elem: span
+    });
+    span.style.left = physics[i].x + 'px';
+    span.style.top = physics[i].y + 'px';
+  }
 
-for(let i=0;i<5;i++){
-let clone=template.content.cloneNode(true);
-clone.querySelector(".title").textContent="Card "+i;
-document.body.appendChild(clone);
-}
+  let tiltX = 0;
+  let tiltY = 0;
 
-// ===== Local Storage =====
-localStorage.setItem("monster","active");
+  window.addEventListener('deviceorientation', e => {
+    tiltX = e.gamma ? e.gamma/90 : 0;
+    tiltY = e.beta ? e.beta/90 : 0;
+  });
 
-// ===== Fetch Demo =====
-fetch("https://jsonplaceholder.typicode.com/todos/1")
-.then(r=>r.json())
-.then(d=>console.log("Fetch:",d));
+  function animate() {
+    const rect = boxRect();
+    physics.forEach(p => {
+      p.vy += 0.05 * p.mass + tiltY*0.2;
+      p.vx += tiltX*0.2;
 
-// ===== Worker =====
-let blob=new Blob([`
-self.onmessage=function(e){
-postMessage("Worker says hi");
-}
-`],{type:"application/javascript"});
+      p.x += p.vx;
+      p.y += p.vy;
 
-let worker=new Worker(URL.createObjectURL(blob));
-worker.onmessage=e=>console.log(e.data);
-worker.postMessage("start");
+      if(p.x < 0) { p.x=0; p.vx*=-0.5; }
+      if(p.x > rect.width-40) { p.x=rect.width-40; p.vx*=-0.5; }
+      if(p.y < 0) { p.y=0; p.vy*=-0.5; }
+      if(p.y > rect.height-40) { p.y=rect.height-40; p.vy*=-0.5; }
 
-// ===== Fun Massive Line Generator =====
-let container=document.createElement("div");
-container.style.marginTop="50px";
-
-for(let i=1;i<=1200;i++){
-let p=document.createElement("p");
-p.textContent="FUN GENERATED LINE #"+i;
-container.appendChild(p);
-}
-
-document.body.appendChild(container);
-
-// ===== ASCII Animation =====
-let ascii=["(-_-)", "(o_o)", "(^_^)", "(>_<)"];
-let face=document.createElement("h2");
-document.body.appendChild(face);
-
-let index=0;
-setInterval(()=>{
-face.textContent=ascii[index];
-index=(index+1)%ascii.length;
-},400);
-
-// ===== Random Color Flash =====
-setInterval(()=>{
-document.body.style.backgroundColor=
-`rgb(${Math.random()*50},0,0)`;
-},5000);
-
-// ===== Math Demo =====
-function fibonacci(n){
-return n<2?n:fibonacci(n-1)+fibonacci(n-2);
-}
-console.log("Fib(10)=",fibonacci(10));
-
-// ===== DOM Spam Generator =====
-for(let i=0;i<50;i++){
-let d=document.createElement("div");
-d.textContent="DOM Block "+i;
-document.body.appendChild(d);
-}
-
-// ===== Fake Python Block (Decoration) =====
-let pythonCode=`
-def hello():
-    print("Hello From Python")
-`;
-
-console.log(pythonCode);
-
-// ===== Fake C Block =====
-let cCode=`
-#include <stdio.h>
-int main(){
-printf("Hello");
-}
-`;
-
-console.log(cCode);
-
-// ===== Fake PHP Block =====
-let phpCode=`
-<?php
-echo "Hello PHP";
-?>
-`;
-
-console.log(phpCode);
-
-// ===== IndexedDB Demo =====
-let request=indexedDB.open("MonsterDB",1);
-
-request.onupgradeneeded=e=>{
-let db=e.target.result;
-db.createObjectStore("logs",{keyPath:"id"});
-};
-
-// ===== Mutation Observer =====
-let observer=new MutationObserver(()=>{
-console.log("DOM changed");
-});
-
-observer.observe(document.body,{childList:true});
-
-// ===== Intersection Observer =====
-let io=new IntersectionObserver(entries=>{
-entries.forEach(e=>{
-if(e.isIntersecting) console.log("Element visible");
-});
-});
-
-io.observe(document.body);
-
-// ===== Performance Timing =====
-console.log(performance.now());
-
-// ===== Crypto API =====
-crypto.subtle.digest("SHA-256",new TextEncoder().encode("hello"))
-.then(buf=>{
-console.log("Hash:",Array.from(new Uint8Array(buf)));
-});
-
+      p.elem.style.left = p.x + 'px';
+      p.elem.style.top = p.y + 'px';
+    });
+    requestAnimationFrame(animate);
+  }
+  animate();
 </script>
 
 </body>
